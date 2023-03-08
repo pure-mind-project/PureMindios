@@ -184,6 +184,8 @@
 		69F7783D27C93C03003A1F56 /* SafePlanInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7783C27C93C03003A1F56 /* SafePlanInfo.swift */; };
 		DA12F3192DF1CB76C43F120F /* Pods_PureMind.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EAE2D345787B1A2710F770 /* Pods_PureMind.framework */; };
 		DCA617E89129C993441F0979 /* Pods_PureMindTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C7E1AA7DF30BE9D41C1A75 /* Pods_PureMindTests.framework */; };
+		E8E60AD729B7B0BC00369D40 /* MoyaNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AD629B7B0BC00369D40 /* MoyaNetworkService.swift */; };
+		E8E60ADA29B7BDD600369D40 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AD929B7BDD600369D40 /* AuthModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -389,6 +391,8 @@
 		C645ECD700F3EA9117461534 /* Pods-PureMind.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureMind.debug.xcconfig"; path = "Target Support Files/Pods-PureMind/Pods-PureMind.debug.xcconfig"; sourceTree = "<group>"; };
 		D0CE98E0FB35A5168AFF95DC /* Pods-PureMind-PureMindUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureMind-PureMindUITests.debug.xcconfig"; path = "Target Support Files/Pods-PureMind-PureMindUITests/Pods-PureMind-PureMindUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E1C7E1AA7DF30BE9D41C1A75 /* Pods_PureMindTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PureMindTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8E60AD629B7B0BC00369D40 /* MoyaNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaNetworkService.swift; sourceTree = "<group>"; };
+		E8E60AD929B7BDD600369D40 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
 		F0EAE2D345787B1A2710F770 /* Pods_PureMind.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PureMind.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -624,6 +628,7 @@
 			children = (
 				69357BB42698658C00831004 /* NetworkService.swift */,
 				69357BB9269865A000831004 /* CachingService.swift */,
+				E8E60AD629B7B0BC00369D40 /* MoyaNetworkService.swift */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -641,6 +646,7 @@
 		698D751C2694AA4500C66C11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E8E60AD829B7BDC600369D40 /* RKO */,
 				69ABE419269AFBF1001FBB4E /* StringExtensions.swift */,
 				69ABE43C269B2E67001FBB4E /* UITableViewCellExtensions.swift */,
 				69C79D7C26CC1060008B024A /* DateValueFormatter.swift */,
@@ -1215,6 +1221,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E8E60AD829B7BDC600369D40 /* RKO */ = {
+			isa = PBXGroup;
+			children = (
+				E8E60AD929B7BDD600369D40 /* AuthModels.swift */,
+			);
+			path = RKO;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1550,6 +1564,7 @@
 				69C79D6526CBF3E4008B024A /* MoodViewController.swift in Sources */,
 				69B3AE8026BC14A200BA8F89 /* MainTabBarController.swift in Sources */,
 				69357BC02698660700831004 /* RegistrationViewController.swift in Sources */,
+				E8E60AD729B7B0BC00369D40 /* MoyaNetworkService.swift in Sources */,
 				69F6AB9E27AFD39700D4A5D4 /* CourseInfoViewController.swift in Sources */,
 				69BB2ACD27A579830048C747 /* ShareViewController.swift in Sources */,
 				69A1C6C026B165A100216B2C /* UIColorExtensions.swift in Sources */,
@@ -1599,6 +1614,7 @@
 				69B1253B28891C8C00CA2EB2 /* MultipleChoiceDiaryViewController.swift in Sources */,
 				69009F152716EB9E00D18BEA /* YesNoExcerciseViewController.swift in Sources */,
 				69F7783D27C93C03003A1F56 /* SafePlanInfo.swift in Sources */,
+				E8E60ADA29B7BDD600369D40 /* AuthModels.swift in Sources */,
 				69BC723B27502B6100774A0F /* ServerResponse.swift in Sources */,
 				69009F3C2717294700D18BEA /* GapsExcerciseViewController.swift in Sources */,
 				69B3AE9026BC165E00BA8F89 /* MenuPresenter.swift in Sources */,
