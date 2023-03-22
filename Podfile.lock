@@ -11,6 +11,10 @@ PODS:
   - InputBarAccessoryView/Core (5.3.1)
   - MessageKit (3.6.1):
     - InputBarAccessoryView (~> 5.3.1)
+  - Moya (15.0.0):
+    - Moya/Core (= 15.0.0)
+  - Moya/Core (15.0.0):
+    - Alamofire (~> 5.0)
   - Parchment (3.2.0)
 
 DEPENDENCIES:
@@ -20,6 +24,7 @@ DEPENDENCIES:
   - DropDown
   - ExpyTableView
   - MessageKit
+  - Moya (~> 15.0)
   - Parchment (~> 3.2)
 
 SPEC REPOS:
@@ -30,6 +35,7 @@ SPEC REPOS:
     - ExpyTableView
     - InputBarAccessoryView
     - MessageKit
+    - Moya
     - Parchment
 
 EXTERNAL SOURCES:
@@ -49,8 +55,9 @@ SPEC CHECKSUMS:
   ExpyTableView: 19cf224c2ff04b1ec215ec52bc4ba6f81fa809ed
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   MessageKit: d153fbbbcb12f3f4045a1ba8874298924dacfb62
+  Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   Parchment: a43c440b22c8a60f7e0196b74339446d4d1d18ea
 
-PODFILE CHECKSUM: af8727ba2329ad4e3ab3ae41c9d8be53aa14d9cb
+PODFILE CHECKSUM: a5f062fa9cedc0585d8bb23a42ff6c4c24b1a708
 
 COCOAPODS: 1.10.1

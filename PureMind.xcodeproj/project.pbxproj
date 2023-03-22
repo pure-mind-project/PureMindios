@@ -184,6 +184,14 @@
 		69F7783D27C93C03003A1F56 /* SafePlanInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7783C27C93C03003A1F56 /* SafePlanInfo.swift */; };
 		DA12F3192DF1CB76C43F120F /* Pods_PureMind.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EAE2D345787B1A2710F770 /* Pods_PureMind.framework */; };
 		DCA617E89129C993441F0979 /* Pods_PureMindTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C7E1AA7DF30BE9D41C1A75 /* Pods_PureMindTests.framework */; };
+		E8E60AD729B7B0BC00369D40 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AD629B7B0BC00369D40 /* AuthService.swift */; };
+		E8E60ADA29B7BDD600369D40 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AD929B7BDD600369D40 /* AuthModels.swift */; };
+		E8E60ADC29B91F3A00369D40 /* PracticeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60ADB29B91F3A00369D40 /* PracticeService.swift */; };
+		E8E60ADE29B9222F00369D40 /* PracticeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60ADD29B9222F00369D40 /* PracticeModels.swift */; };
+		E8E60AE029BA7D6900369D40 /* CoursesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60ADF29BA7D6900369D40 /* CoursesService.swift */; };
+		E8E60AE229BA7FED00369D40 /* NetworkServicesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE129BA7FED00369D40 /* NetworkServicesFactory.swift */; };
+		E8E60AE429BE04F700369D40 /* CoursesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE329BE04F700369D40 /* CoursesModels.swift */; };
+		E8E60AE629C771B900369D40 /* MOCservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE529C771B900369D40 /* MOCservice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -389,6 +397,14 @@
 		C645ECD700F3EA9117461534 /* Pods-PureMind.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureMind.debug.xcconfig"; path = "Target Support Files/Pods-PureMind/Pods-PureMind.debug.xcconfig"; sourceTree = "<group>"; };
 		D0CE98E0FB35A5168AFF95DC /* Pods-PureMind-PureMindUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureMind-PureMindUITests.debug.xcconfig"; path = "Target Support Files/Pods-PureMind-PureMindUITests/Pods-PureMind-PureMindUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E1C7E1AA7DF30BE9D41C1A75 /* Pods_PureMindTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PureMindTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8E60AD629B7B0BC00369D40 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		E8E60AD929B7BDD600369D40 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
+		E8E60ADB29B91F3A00369D40 /* PracticeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeService.swift; sourceTree = "<group>"; };
+		E8E60ADD29B9222F00369D40 /* PracticeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeModels.swift; sourceTree = "<group>"; };
+		E8E60ADF29BA7D6900369D40 /* CoursesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesService.swift; sourceTree = "<group>"; };
+		E8E60AE129BA7FED00369D40 /* NetworkServicesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServicesFactory.swift; sourceTree = "<group>"; };
+		E8E60AE329BE04F700369D40 /* CoursesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesModels.swift; sourceTree = "<group>"; };
+		E8E60AE529C771B900369D40 /* MOCservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOCservice.swift; sourceTree = "<group>"; };
 		F0EAE2D345787B1A2710F770 /* Pods_PureMind.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PureMind.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -624,6 +640,11 @@
 			children = (
 				69357BB42698658C00831004 /* NetworkService.swift */,
 				69357BB9269865A000831004 /* CachingService.swift */,
+				E8E60AD629B7B0BC00369D40 /* AuthService.swift */,
+				E8E60ADB29B91F3A00369D40 /* PracticeService.swift */,
+				E8E60ADF29BA7D6900369D40 /* CoursesService.swift */,
+				E8E60AE129BA7FED00369D40 /* NetworkServicesFactory.swift */,
+				E8E60AE529C771B900369D40 /* MOCservice.swift */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -641,6 +662,7 @@
 		698D751C2694AA4500C66C11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E8E60AD829B7BDC600369D40 /* RKO */,
 				69ABE419269AFBF1001FBB4E /* StringExtensions.swift */,
 				69ABE43C269B2E67001FBB4E /* UITableViewCellExtensions.swift */,
 				69C79D7C26CC1060008B024A /* DateValueFormatter.swift */,
@@ -1215,6 +1237,16 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E8E60AD829B7BDC600369D40 /* RKO */ = {
+			isa = PBXGroup;
+			children = (
+				E8E60AD929B7BDD600369D40 /* AuthModels.swift */,
+				E8E60ADD29B9222F00369D40 /* PracticeModels.swift */,
+				E8E60AE329BE04F700369D40 /* CoursesModels.swift */,
+			);
+			path = RKO;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1493,6 +1525,7 @@
 			files = (
 				69BB2B1327AAB6DD0048C747 /* SingleTestViewCell.swift in Sources */,
 				69AD34D826ED5C3100CB7581 /* TariffViewCell.swift in Sources */,
+				E8E60AE429BE04F700369D40 /* CoursesModels.swift in Sources */,
 				69ABE459269C5D5E001FBB4E /* PolicyFullViewCell.swift in Sources */,
 				69CC6BB3279B67210051013E /* ExcerciseAnswerViewCell.swift in Sources */,
 				69BB2AE127A5FDDF0048C747 /* CreatorsViewController.swift in Sources */,
@@ -1525,6 +1558,7 @@
 				69EE7FDB280F274A00B7FB0B /* ExpTitleScoreCell.swift in Sources */,
 				69ED7AD8287C53DA003EEBA1 /* DiaryNote.swift in Sources */,
 				69009F4927172AAC00D18BEA /* GapTableViewCell.swift in Sources */,
+				E8E60AE629C771B900369D40 /* MOCservice.swift in Sources */,
 				69C79D5726CBC2B3008B024A /* SecondQuestionsViewController.swift in Sources */,
 				69357BB52698658C00831004 /* NetworkService.swift in Sources */,
 				69ED7ACF287C458E003EEBA1 /* DiaryPresenter.swift in Sources */,
@@ -1542,6 +1576,7 @@
 				69ABE44B269C56C1001FBB4E /* PoliciesFullViewController.swift in Sources */,
 				69CA8C76278360BF00549176 /* AllExcercisesViewController.swift in Sources */,
 				69C79D4226CAC112008B024A /* AnswerViewCell.swift in Sources */,
+				E8E60AE029BA7D6900369D40 /* CoursesService.swift in Sources */,
 				69ED7AC6287187F2003EEBA1 /* NotificationsChoiceViewController.swift in Sources */,
 				69C79D7D26CC1060008B024A /* DateValueFormatter.swift in Sources */,
 				69BB2AF927AAAFBF0048C747 /* PortraitViewController.swift in Sources */,
@@ -1550,6 +1585,7 @@
 				69C79D6526CBF3E4008B024A /* MoodViewController.swift in Sources */,
 				69B3AE8026BC14A200BA8F89 /* MainTabBarController.swift in Sources */,
 				69357BC02698660700831004 /* RegistrationViewController.swift in Sources */,
+				E8E60AD729B7B0BC00369D40 /* AuthService.swift in Sources */,
 				69F6AB9E27AFD39700D4A5D4 /* CourseInfoViewController.swift in Sources */,
 				69BB2ACD27A579830048C747 /* ShareViewController.swift in Sources */,
 				69A1C6C026B165A100216B2C /* UIColorExtensions.swift in Sources */,
@@ -1599,7 +1635,9 @@
 				69B1253B28891C8C00CA2EB2 /* MultipleChoiceDiaryViewController.swift in Sources */,
 				69009F152716EB9E00D18BEA /* YesNoExcerciseViewController.swift in Sources */,
 				69F7783D27C93C03003A1F56 /* SafePlanInfo.swift in Sources */,
+				E8E60ADA29B7BDD600369D40 /* AuthModels.swift in Sources */,
 				69BC723B27502B6100774A0F /* ServerResponse.swift in Sources */,
+				E8E60AE229BA7FED00369D40 /* NetworkServicesFactory.swift in Sources */,
 				69009F3C2717294700D18BEA /* GapsExcerciseViewController.swift in Sources */,
 				69B3AE9026BC165E00BA8F89 /* MenuPresenter.swift in Sources */,
 				69BC722A274FEA4B00774A0F /* SessionError.swift in Sources */,
@@ -1610,6 +1648,7 @@
 				69ABE453269C56D9001FBB4E /* PoliciesFullPresenter.swift in Sources */,
 				695172052804BBD800E11F7F /* CustomTestsViewController.swift in Sources */,
 				69F6AB9827AFD30E00D4A5D4 /* SecondaryTabBarViewController.swift in Sources */,
+				E8E60ADC29B91F3A00369D40 /* PracticeService.swift in Sources */,
 				69009F2E2717208700D18BEA /* InsertImageExcerciseViewController.swift in Sources */,
 				698D751F2694AAD900C66C11 /* ModuleBuilder.swift in Sources */,
 				69ABE41A269AFBF1001FBB4E /* StringExtensions.swift in Sources */,
@@ -1618,6 +1657,7 @@
 				69CC6B9D279B2B7F0051013E /* NoPasswordViewController.swift in Sources */,
 				69BC724527502EA100774A0F /* UserInfo.swift in Sources */,
 				69B1F5312704D73500BEC38F /* ChatButtonViewCell.swift in Sources */,
+				E8E60ADE29B9222F00369D40 /* PracticeModels.swift in Sources */,
 				69ABE40D2699D695001FBB4E /* LoginViewController.swift in Sources */,
 				69B3AE9626BC214100BA8F89 /* PracticViewCell.swift in Sources */,
 				698D75502695F0A500C66C11 /* CardViewCell.swift in Sources */,

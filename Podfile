@@ -11,6 +11,8 @@ target 'PureMind' do
 
   pod 'MessageKit'
 
+  pod 'Moya', '~> 15.0'
+
   pod 'Alamofire', '~> 5.4'
 	
   pod 'Charts'
