@@ -10,7 +10,7 @@ import Moya
 import Alamofire
 
 enum AuthService {
-    case authenticate(name: String, email: String, password: String)
+    case authenticate(email: String, password: String)
     case register(name: String, email: String, password: String)
     case verify(email: String, code: String)
 }
@@ -38,17 +38,20 @@ extension AuthService: TargetType {
     
     var task: Task {
         switch self {
-        case .authenticate(let name, let email, let password), .register(let name, let email, let password):
-            let data = try! JSONEncoder().encode(AuthInfo(email: email, name: name, password: password))
+        case .authenticate(let email, let password):
+            let data = try! JSONEncoder().encode(AuthInfo(email: email, password: password))
             return .requestData(data)
         case .verify(let email, let code):
             let data = try! JSONEncoder().encode(VerifyInfo(email: email, activationCode: code))
+            return .requestData(data)
+        case .register(let name, let email, let password):
+            let data = try! JSONEncoder().encode(RegistrationInfo(email: email, password: password, name: name))
             return .requestData(data)
         }
     }
     
     var headers: [String : String]? {
-        return nil
+        return ["Content-Type": "application/json", "Accept": "application/json"]
     }
 }
 
@@ -58,7 +61,7 @@ struct AuthServiceManager {
     
     func registerUser(nickname: String, email: String, password: String,
                       completion: @escaping (Result<String, SessionError>) -> Void) {
-        provider.request(.authenticate(name: nickname, email: email, password: password),
+        provider.request(.register(name: nickname, email: email, password: password),
                          completion: { result in
             switch result {
             case .success(let responce):
@@ -74,12 +77,13 @@ struct AuthServiceManager {
         })
     }
     
-    func authenticateUser(nickname: String, email: String, password: String,
+    func authenticateUser(email: String, password: String,
                           completion: @escaping (Result<String, SessionError>) -> Void) {
-        provider.request(.authenticate(name: nickname, email: email, password: password),
+        provider.request(.authenticate(email: email, password: password),
                         completion: { result in
             switch result {
             case .success(let responce):
+                print(responce)
                 do {
                     let token = try JSONDecoder().decode(Token.self, from: responce.data)
                     completion(.success(token.token))

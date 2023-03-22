@@ -8,15 +8,19 @@
 import Foundation
 
 struct AuthInfo: Codable {
-    internal init(email: String, name: String, password: String) {
+    internal init(email: String, password: String) {
         self.email = email
-        self.name = name
         self.password = password
     }
     
     var email: String
-    var name: String
     var password: String
+}
+
+struct RegistrationInfo: Codable {
+    var email: String
+    var password: String
+    var name: String
 }
 
 struct VerifyInfo: Codable {
