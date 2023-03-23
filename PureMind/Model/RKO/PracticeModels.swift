@@ -62,4 +62,3 @@ struct PracticeFullInfoRKO: Codable {
     let name: String
     let techniques: [PracticeInfoRKO]
 }
-

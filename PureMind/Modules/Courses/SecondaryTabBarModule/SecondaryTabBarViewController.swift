@@ -8,38 +8,55 @@
 import UIKit
 import Parchment
 
+struct SecondaryTabBarViewControllerInitInfo {
+    var id: String
+    var courseService: CoursesServiceManagerProtocol
+    var lessonChosen: Int
+    var courseInfo: CourseFullInfoRKO?
+}
+
 class SecondaryTabBarViewController: UIViewController {
-    var id: String!
+    var id: String?
+    var courseService: CoursesServiceManagerProtocol?
     var lessonChosen = 0
-    var courseInfo: CourseCompletionInfo!
+    var courseInfo: CourseFullInfoRKO?
     
     private var pagingViewController: PagingViewController!
     let mod = ModuleBuilder()
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    init(courseID: String, courseService: CoursesServiceManagerProtocol) {
+        id = courseID
+        self.courseService = courseService
+        super.init(nibName: nil, bundle: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         var viewControllers = [UIViewController]()
-        NetworkService.shared.getAllLessonsData(courseId: id) {[weak self] (result) in
-            switch result{
-            case let .success(tokens):
-                CachingService.shared.getCourseInfo(id: (self?.id)!, lessonsCount: tokens.count) {[weak self] (courseInfo) in
-                    self?.courseInfo = courseInfo
-                    for i in 0..<tokens.count{
+        
+        if let id = id, let courseService = courseService {
+            courseService.getCourseInfo(courseID: id, completion: { res in
+                switch res {
+                case .success(let courseInfo):
+                    self.courseInfo = courseInfo
+                    for i in 0..<courseInfo.lessons.count{
                         var reflexCount = 0
-                        if i != 0{
-                            reflexCount = tokens[i - 1].reflexiveQuestions.count
+                        if i != 0 {
+                            reflexCount = self.courseInfo?.lessons[i - 1].questions.count ?? 0
                         }
-                        viewControllers.append((self?.mod.createLessonModule(data: tokens[i], index: i, previousReflexCount: reflexCount, courseId: (self?.id)!))!)
+                        viewControllers.append((self.mod.createLessonModule(data: (self.courseInfo?.lessons[i])!, index: i, previousReflexCount: reflexCount, courseId: (self.id)!)))
                     }
-                    self?.pagingViewController = PagingViewController(viewControllers: viewControllers)
-                    self?.setupParchment()
-                    self?.setFirstVC()
+                    self.pagingViewController = PagingViewController(viewControllers: viewControllers)
+                    self.setupParchment()
+                    self.setFirstVC()
+                case .failure(let error):
+                    print(error)
                 }
-                
-            case let .failure(error):
-                print(error)
-                self?.alert()
-            }
+            })
         }
     }
     

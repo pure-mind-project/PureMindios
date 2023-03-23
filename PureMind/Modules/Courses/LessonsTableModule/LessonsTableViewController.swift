@@ -13,6 +13,13 @@ protocol LessonsTableViewProtocol: UIViewController{
     func sendAlert(text: String)
 }
 
+struct LessonsTableViewControllerInitInfo {
+    var presenter: LessonsTablePresenterProtocol
+    var courseId: String
+    var vcIndex: Int
+    var previousReflexCount: Int
+}
+
 class LessonsTableViewController: UIViewController, SFSafariViewControllerDelegate {
     
     var presenter: LessonsTablePresenterProtocol!
@@ -21,6 +28,14 @@ class LessonsTableViewController: UIViewController, SFSafariViewControllerDelega
     var lockImageView: UIImageView!
     var lockLabel: UILabel!
     var previousReflexCount: Int!
+    var initInfo: LessonsTableViewControllerInitInfo? {
+        didSet {
+            presenter = initInfo?.presenter
+            courseId = initInfo?.courseId ?? ""
+            vcIndex = initInfo?.vcIndex
+            previousReflexCount = initInfo?.previousReflexCount
+        }
+    }
     
     @IBOutlet weak var elementsTableView: UITableView!
     override func viewDidLoad() {
@@ -32,7 +47,11 @@ class LessonsTableViewController: UIViewController, SFSafariViewControllerDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if previousReflexCount != 0{
+        checkLessonComplition()
+    }
+    
+    func checkLessonComplition() {
+        if previousReflexCount != 0 {
             CachingService.shared.checkLessonCompletion(id: courseId, lessonId: vcIndex, reflexCount: previousReflexCount) {[weak self] (flag) in
                 if flag! == true{
                     self?.hideShowLessonTable(hidden: false)
@@ -40,25 +59,19 @@ class LessonsTableViewController: UIViewController, SFSafariViewControllerDelega
                 else{
                     self?.hideShowLessonTable(hidden: true)
                 }
-        }
+            }
         }
     }
     
     func openSafari(link: String){
         if link == ""{
-            alert()
+            let alert = presenter.getAlert()
+            present(alert, animated: true, completion: nil)
         }
         else{
             let safariVC = SFSafariViewController(url: URL(string: link)!)
             self.present(safariVC, animated: true, completion: nil)
         }
-    }
-    
-    func alert(){
-        let alert = UIAlertController(title: "Внимание", message: "Похоже, для данного урока отсутствует видео-лекция", preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "Oк", style: .cancel, handler: nil)
-        alert.addAction(okButton)
-        present(alert, animated: true, completion: nil)
     }
     
     func hideShowLessonTable(hidden: Bool){

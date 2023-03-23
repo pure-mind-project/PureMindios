@@ -7,8 +7,7 @@
 
 import UIKit
 
-protocol AllCoursesPresenterProtocol{
-    init(view: AllCoursesViewProtocol)
+protocol AllCoursesPresenterProtocol {
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func prepareCell(cell: SingleCourseViewCell, index: Int)
     func getTitleText(index: Int) -> String
@@ -19,23 +18,24 @@ protocol AllCoursesPresenterProtocol{
 class AllCoursesPresenter: AllCoursesPresenterProtocol{
     weak var view: AllCoursesViewProtocol?
     let networkService = NetworkService.shared
-    var courses = [CoursesInfo]()
-    
-    required init(view: AllCoursesViewProtocol) {
+    var coursesCollection = CoursesRKO(courses: [])
+    let networkFactory: NetworkServicesFactoryProtocol
+    let coursesServiceManager: CoursesServiceManagerProtocol
+    let practicesServicesManager: PracticeServiceManagerProtocol
+
+    required init(view: AllCoursesViewProtocol, networkFactory: NetworkServicesFactoryProtocol) {
         self.view = view
-        networkService.getCourses { [weak self] (result) in
-            switch result{
-            case let .success(tokens):
-                for token in tokens {
-                    self?.courses.append(token)
-                    self?.view?.updateUI()
-                    
-                }
-                
+        self.coursesServiceManager = networkFactory.getCourcesService()
+        self.practicesServicesManager = networkFactory.getPracticeService()
+        self.networkFactory = networkFactory
+        coursesServiceManager.getCourses(completion: { res in
+            switch res {
+            case .success(let courses):
+                self.coursesCollection = courses
             case .failure(_):
-                self?.view?.failedToLoad()
+                self.view?.failedToLoad()
             }
-        }
+        })
     }
     
     func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -43,51 +43,52 @@ class AllCoursesPresenter: AllCoursesPresenterProtocol{
         case "practicChosenSegue":
             guard let vc = segue.destination as? PageExcerciseViewController, let string = sender as? [String]
             else {fatalError("invalid data passed")}
-            vc.info = string
+            vc.practiceID = string.first!
             
         case "lessonChosenSegue":
             guard let vc = segue.destination as? CourseTabBarViewController, let indexes = sender as? [Int]
             else {fatalError("invalid data passed")}
-            let data = courses[indexes[1]]
+            let data = coursesCollection.courses[indexes[1]]
             vc.id = data.id
             vc.name = data.name
             vc.courseDescription = data.description
             vc.lessonChosen = indexes[0]
-            
+            vc.coursesService = coursesServiceManager
         default:
             break
         }
     }
 
     func prepareCell(cell: SingleCourseViewCell, index: Int) {
-        let course = courses[index].id
-        networkService.getLessons(courseId: course) {[weak self] (result) in
-            switch result{
-            case let .success(lessons):
-                var sort = lessons
-                sort = sort.sorted{$1.name > $0.name}
-                cell.lessons = sort
-                cell.lessonsTableView.reloadData()
-                
-            case .failure(_):
-                self?.view?.failedToLoad()
-            }
-        }
+        cell.lessons = coursesCollection.courses[index].lessons
+        // ShortLessonInfo
+//        networkService.getLessons(courseId: course) {[weak self] (result) in
+//            switch result{
+//            case let .success(lessons):
+//                var sort = lessons
+//                sort = sort.sorted{$1.name > $0.name}
+//                cell.lessons = sort
+//                cell.lessonsTableView.reloadData()
+//
+//            case .failure(_):
+//                self?.view?.failedToLoad()
+//            }
+//        }
         cell.parentVC = view
         cell.courseIndex = index
         cell.lessonsTableView.reloadData()
     }
     
     func getTitleText(index: Int) -> String {
-        return courses[index].name
+        return coursesCollection.courses[index].name
     }
     
     func getDescriptionText(index: Int) -> String {
-        return courses[index].description ?? " "
+        return coursesCollection.courses[index].description
     }
     
     func countData() -> Int {
-        courses.count
+        coursesCollection.courses.count
     }
 
 }
