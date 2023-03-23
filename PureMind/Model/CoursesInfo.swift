@@ -18,7 +18,7 @@ struct CourseCompletionInfo: Codable {
     var questionsFinished: [[Bool]]
 }
 
-struct LessonsTableInfo{
+struct LessonsTableInfo {
     var courseId: String
     var vcIndex: IndexPath
     var lessonIndex: Int

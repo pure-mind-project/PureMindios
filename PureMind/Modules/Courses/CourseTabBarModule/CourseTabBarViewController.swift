@@ -13,23 +13,35 @@ class CourseTabBarViewController: UIViewController {
     var id: String!
     var name: String!
     var courseDescription: String!
+    var coursesService: CoursesServiceManagerProtocol!
     var lessonChosen = 0
     
     private var pagingViewController: PagingViewController!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarController?.tabBar.isHidden = true
         let firstViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SecondaryTabVC") as SecondaryTabBarViewController
         firstViewController.id = id
         firstViewController.lessonChosen = lessonChosen
+        firstViewController.courseService = coursesService
+        
         let secondViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "CourseInfoVC") as CourseInfoViewController
         secondViewController.titleText = name
         secondViewController.courseDescriptionText = courseDescription ?? "Описание к курсу отсутсвтует"
-             pagingViewController = PagingViewController(viewControllers: [
+        pagingViewController = PagingViewController(viewControllers: [
               firstViewController,
               secondViewController
             ])
+        
+        setUpPagingViewController()
+    }
+    
+    @objc func backButtonPressed() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func setUpPagingViewController() {
         addChild(pagingViewController)
         view.addSubview(pagingViewController.view)
         pagingViewController.didMove(toParent: self)
@@ -68,9 +80,4 @@ class CourseTabBarViewController: UIViewController {
             pagingViewController.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
         ])
     }
-    
-    @objc func backButtonPressed() {
-        navigationController?.popViewController(animated: true)
-    }
-
 }

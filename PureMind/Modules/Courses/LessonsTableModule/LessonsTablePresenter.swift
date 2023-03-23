@@ -8,29 +8,37 @@
 import UIKit
 
 protocol LessonsTablePresenterProtocol{
-    init(view: LessonsTableViewProtocol, data: LessonInfo)
+    init(view: LessonsTableViewProtocol, data: LessonRKO)
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func prepareCell(cell: LessonElementTableViewCell, index: IndexPath)
     func getTitleText(index: Int) -> String
     func countSections() -> Int
     func countRows(section: Int) -> Int
     func getVideoLink(index: Int) -> String
+    func getAlert() -> UIAlertController
     }
 
 class LessonsTablePresenter: LessonsTablePresenterProtocol{
     weak var view: LessonsTableViewProtocol?
     let networkService = NetworkService.shared
-    var data: LessonInfo?
+    var data: LessonRKO?
     var titles = ["Видео-лекция", "Рефлексивные вопросы", "Практики", "Доп. литература"]
     
 
-    required init(view: LessonsTableViewProtocol, data: LessonInfo) {
+    required init(view: LessonsTableViewProtocol, data: LessonRKO) {
         self.view = view
         self.data = data
     }
     
     func getVideoLink(index: Int) -> String{
-        return data!.video ?? ""
+        return data?.lectures.first?.url ?? ""
+    }
+    
+    public func getAlert() -> UIAlertController {
+        let alert = UIAlertController(title: "Внимание", message: "Похоже, для данного урока отсутствует видео-лекция", preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "Oк", style: .cancel, handler: nil)
+        alert.addAction(okButton)
+        return alert
     }
 
     func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -40,14 +48,14 @@ class LessonsTablePresenter: LessonsTablePresenterProtocol{
             else {fatalError("invalid data passed")}
             switch info.vcIndex.section {
             case 1:
-                vc.titleText = "Рефлексивный вопрос №\(data!.reflexiveQuestions[info.vcIndex.row].name!)"
-                vc.descText = (data?.reflexiveQuestions[info.vcIndex.row].text)!
+                vc.titleText = "Рефлексивный вопрос №\(data?.questions[info.vcIndex.row].question ?? "")"
+                vc.descText = data?.questions[info.vcIndex.row].question ?? ""
                 vc.courseId = info.courseId
                 vc.vcIndex = info.vcIndex.row
                 vc.lessonIndex = info.lessonIndex
             case 2:
                 vc.titleText = (data?.practices[info.vcIndex.row].name)!
-                vc.descText = (data?.practices[info.vcIndex.row].text)!
+                // vc.descText = data?.practices[info.vcIndex.row].name ?? ""
             default:
                 vc.titleText = ""
                 vc.descText = ""
@@ -72,8 +80,7 @@ class LessonsTablePresenter: LessonsTablePresenterProtocol{
             cell.elementIcon.image = UIImage(named: "lessonPractic")
         case 3:
             cell.elementIcon.image = UIImage(named: "lessonBook")
-            cell.elementLabel.text = data!.additionalLiterature![index.row].text
-            
+            cell.elementLabel.text = data!.books[index.row].name
         default:
             cell.elementIcon.image = UIImage(named: "noImage")
         }
@@ -89,11 +96,11 @@ class LessonsTablePresenter: LessonsTablePresenterProtocol{
         case 0:
             return 1
         case 1:
-            return data!.reflexiveQuestions.count
+            return data?.questions.count ?? 0
         case 2:
-            return data!.practices.count
+            return data?.practices.count ?? 0
         case 3:
-            return data!.additionalLiterature?.count ?? 0
+            return data?.practices.count ?? 0
             
         default:
             return 0

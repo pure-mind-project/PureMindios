@@ -12,7 +12,7 @@ class SingleCourseViewCell: UITableViewCell {
     
     @IBOutlet weak var lessonsTableView: UITableView!
     
-    var lessons = [ShortLessonInfo]()
+    var lessons = [String]()
     var courseIndex: Int!
     weak var parentVC: AllCoursesViewProtocol?
     
@@ -38,7 +38,7 @@ extension SingleCourseViewCell: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ExcerciseViewCell.identifier) as! ExcerciseViewCell
-        cell.excerciseNameLabel.text = lessons[indexPath.row].name
+        cell.excerciseNameLabel.text = lessons[indexPath.row]
         cell.excerciseNameLabel.textColor = newButtonLabelColor
         cell.emblemView.image = UIImage(named: "lessonVideo")
         cell.layoutMargins = UIEdgeInsets.zero

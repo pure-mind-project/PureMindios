@@ -15,19 +15,25 @@ protocol AssemblyBuilderProtocol {
     func createMoodModuleTwo(mood: String, vcIndex: Int) -> UIViewController
 }
 
-class ModuleBuilder: AssemblyBuilderProtocol{
+class ModuleBuilder: AssemblyBuilderProtocol {
+    
+    private static let resolver = Resolver()
+    public static let shared = ModuleBuilder()
+    
+    public static func registerInResolver<T>(type: T.Type = T.self, _ factory: () -> T) {
+        resolver.register(type: type, factory)
+    }
+    
     func createWelcomeModule() -> UIViewController {
         let welcomeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "WelcomeVC") as WelcomeViewController
         let navC = UINavigationController(rootViewController: welcomeVC)
         return navC
     }
     
-    func createLessonModule(data: LessonInfo, index: Int, previousReflexCount: Int, courseId: String) -> UIViewController{
+    func createLessonModule(data: LessonRKO, index: Int, previousReflexCount: Int, courseId: String) -> UIViewController{
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "LessonsVC") as LessonsTableViewController
-        vc.previousReflexCount = previousReflexCount
-        vc.courseId = courseId
-        vc.vcIndex = index
-        vc.presenter = LessonsTablePresenter(view: vc, data: data)
+        let initInfo = LessonsTableViewControllerInitInfo(presenter: LessonsTablePresenter(view: vc, data: data), courseId: courseId, vcIndex: index, previousReflexCount: previousReflexCount)
+        vc.initInfo = initInfo
         vc.title = "Урок №\(index + 1)"
         let navC = UINavigationController(rootViewController: vc)
         return navC
@@ -40,7 +46,8 @@ class ModuleBuilder: AssemblyBuilderProtocol{
     
     func createMenuModule() -> UIViewController {
         let menuVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MenuVC") as MenuViewController
-        menuVC.presenter = MenuPresenter(view: menuVC)
+        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
+        menuVC.presenter = MenuPresenter(view: menuVC, networkService: networkManager)
         let navC = UINavigationController(rootViewController: menuVC)
         return navC
     }
@@ -65,15 +72,18 @@ class ModuleBuilder: AssemblyBuilderProtocol{
     
     func createPracticModule() -> UIViewController{
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "AllExcVC") as AllExcercisesViewController
-        vc.presenter = AllExcercisePresenter(view: vc)
+        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
+        vc.presenter = AllExcercisePresenter(view: vc, practiceService: networkManager.getPracticeService())
         vc.backHidden = true
         let navC = UINavigationController(rootViewController: vc)
         return navC
     }
     
-    func createCoursesModule() -> UIViewController{
+    func createCoursesModule() -> UIViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "AllCoursesVC") as AllCoursesViewController
-        vc.presenter = AllCoursesPresenter(view: vc)
+        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
+        
+        vc.presenter = AllCoursesPresenter(view: vc, networkFactory: networkManager)
         vc.backHidden = true
         let navC = UINavigationController(rootViewController: vc)
         return navC
@@ -113,6 +123,51 @@ class ModuleBuilder: AssemblyBuilderProtocol{
         moodTwoVC.vcIndex = vcIndex
         moodTwoVC.presenter = SecondQuestionsPresenter(view: moodTwoVC, currMood: mood)
         return moodTwoVC
+    }
+    
+    func createPractice(info: PracticeInfoRKO, title: String, practiceName: String) -> [UIViewController]{
+        var controllers = [UIViewController]()
+        let vcCount = info.steps.count + 1
+        for step in info.steps {
+            print(step)
+            switch step.type {
+            case "TEXT":
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "TextExcVC") as TextExcerciseViewController
+                //
+                vc.presenter = TextExcercisePresenter(view: vc, currAudio: nil, id: info.id)
+                //
+                vc.vcCount = vcCount
+                vc.vcIndex = vcCount - 1
+                vc.titleText = title
+                vc.excerciseName = practiceName
+                vc.excerciseDescription = step.question
+                
+                controllers.append(vc)
+            case "FILE":
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "insertImageExcVC") as InsertImageExcerciseViewController
+                //
+                vc.presenter = InsertImageExcercisePresenter(view: vc, currAudio: nil)
+                //
+                vc.vcCount = vcCount
+                vc.vcIndex = vcCount - 1
+                vc.titleText = title
+                vc.excerciseName = practiceName
+                vc.excerciseDescription = step.question
+                controllers.append(vc)
+            case "LIST":
+                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "gapsExcVC") as GapsExcerciseViewController
+                vc.presenter = GapsExcercisePresenter(view: vc, currAudio: nil, currCode: "12", id: info.id)
+                vc.vcCount = vcCount
+                vc.vcIndex = vcCount - 1
+                vc.titleText = title
+                vc.excerciseName = practiceName
+                vc.excerciseDescription = step.question
+                controllers.append(vc)
+            default:
+                break
+            }
+        }
+        return controllers
     }
     
     func createAnyPractic(info: [ExcerciseInfo], title: String, practicName: String) -> [UIViewController]{
