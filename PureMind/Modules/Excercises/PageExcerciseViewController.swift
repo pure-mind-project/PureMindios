@@ -9,10 +9,13 @@ import UIKit
 
 class PageExcerciseViewController: UIPageViewController {
     
-    var info = [String]()
+    var practiceID = ""
+    var techniqueNumber = 0
+    // var technique: PracticeInfoRKO!
+    // var practiceName = ""
     var excerciseControllers = [UIViewController]()
     var mod = ModuleBuilder()
-    let networkService = NetworkService.shared
+    var practiceService: PracticeServiceManagerProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,49 +41,61 @@ class PageExcerciseViewController: UIPageViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func setViewControllers(){
-        networkService.getAllExcerciseData(practicId: info[0]){ [weak self] (result) in
-            switch result{
-            case let .success(tokens):
-                self?.excerciseControllers = (self?.mod.createAnyPractic(info: tokens, title: (self?.info[1])!, practicName: (self?.info[2])!))!
-                self?.start()
-                
-            case let .failure(error):
-                print(error)
-                self?.alert()
-                self?.navigationController?.popViewController(animated: true)
+    func setViewControllers() {
+        practiceService.getPracticeInfo(practiceId: practiceID, completion: { res in
+            switch res {
+            case .success(let practiceInfo):
+                let curTech = practiceInfo.techniques[self.techniqueNumber]
+                self.excerciseControllers = self.mod.createPractice(info: curTech, title: practiceInfo.name, practiceName: curTech.name)
+                self.start()
+            case .failure(_):
+                break
             }
-        }
+        })
+        
+        
+//        networkService.getAllExcerciseData(practicId: info[0]){ [weak self] (result) in
+//            switch result{
+//            case let .success(tokens):
+//                self?.excerciseControllers = (self?.mod.createAnyPractic(info: tokens, title: (self?.info[1])!, practicName: (self?.info[2])!))!
+//                self?.start()
+//
+//            case let .failure(error):
+//                print(error)
+//                self?.alert()
+//                self?.navigationController?.popViewController(animated: true)
+//            }
+//        }
     }
 }
 
 extension PageExcerciseViewController: UIPageViewControllerDataSource{
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-            guard let viewControllerIndex = excerciseControllers.firstIndex(of: viewController) else {
-                        return nil
-                    }
-                    let previousIndex = viewControllerIndex - 1
-                    guard previousIndex >= 0 else {
-                        return nil
-                    }
-                    guard excerciseControllers.count > previousIndex else {
-                        return nil
-                    }
-                    return excerciseControllers[previousIndex]
+        guard let viewControllerIndex = excerciseControllers.firstIndex(of: viewController) else {
+            return nil
         }
-
-        func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-            guard let viewControllerIndex = excerciseControllers.firstIndex(of: viewController) else {
-                        return nil
-                    }
-                    let nextIndex = viewControllerIndex + 1
-                    let orderedViewControllersCount = excerciseControllers.count
-                    guard orderedViewControllersCount != nextIndex else {
-                        return nil
-                    }
-                    guard orderedViewControllersCount > nextIndex else {
-                        return nil
-                    }
-                    return excerciseControllers[nextIndex]
-            }
+        let previousIndex = viewControllerIndex - 1
+        guard previousIndex >= 0 else {
+            return nil
+        }
+        guard excerciseControllers.count > previousIndex else {
+            return nil
+        }
+        return excerciseControllers[previousIndex]
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let viewControllerIndex = excerciseControllers.firstIndex(of: viewController) else {
+            return nil
+        }
+        let nextIndex = viewControllerIndex + 1
+        let orderedViewControllersCount = excerciseControllers.count
+        guard orderedViewControllersCount != nextIndex else {
+            return nil
+        }
+        guard orderedViewControllersCount > nextIndex else {
+            return nil
+        }
+        return excerciseControllers[nextIndex]
+    }
 }

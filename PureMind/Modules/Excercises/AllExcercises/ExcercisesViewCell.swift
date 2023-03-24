@@ -12,7 +12,8 @@ class ExcercisesViewCell: UITableViewCell {
     
     @IBOutlet weak var excercisesTableView: UITableView!
     
-    var excercises = [PracticesInfo]()
+    var practiceID = ""
+    var excercises = [String]()
     weak var parentVC: AllExcerciseViewProtocol?
     
     override func awakeFromNib() {
@@ -38,7 +39,7 @@ extension ExcercisesViewCell: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ExcerciseViewCell.identifier) as! ExcerciseViewCell
-        cell.excerciseNameLabel.text = excercises[indexPath.row].name
+        cell.excerciseNameLabel.text = excercises[indexPath.row]
         cell.excerciseNameLabel.textColor = newButtonLabelColor
         cell.emblemView.image = UIImage(named: "tabBar4")
         cell.layoutMargins = UIEdgeInsets.zero
@@ -47,7 +48,6 @@ extension ExcercisesViewCell: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let excercise = excercises[indexPath.row]
-        parentVC?.practicChosen(id: excercise.id, title: excercise.category, name: excercise.name)
+        parentVC?.practicChosen(practiceID: practiceID, exerciseNumber: indexPath.row)
     }
 }

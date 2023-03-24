@@ -47,6 +47,8 @@ class LoginViewController: UIViewController {
         prepareViews()
         prepareButtons()
         prepareTextFields()
+        emailTextField.text = "lol@kek.com"
+        passwordTextField.text = "123456"
     }
     
     @objc func handleGesture(){

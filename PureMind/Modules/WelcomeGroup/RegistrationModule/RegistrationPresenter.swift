@@ -56,17 +56,32 @@ class RegistrationPresenter: RegistrationPresenterProtocol{
     }
     
     func performRegistration(nickname: String, email: String, password: String) {
-        networkService.registerUser(nickname: nickname, email: email, password: password) {[weak self] (result) in
-            switch result{
+        let service = AuthServiceManager()
+        service.registerUser(nickname: nickname, email: email, password: password, completion: { [weak self] (result) in
+            switch result {
             case let .success(token):
+                print(token)
                 self?.networkService.apiKey = token
                 self?.cacheService.cacheInfo(UserInfo(login: email, password: password, token: token))
                 self?.view?.registerSuccess()
                 
             case .failure(_):
                 self?.view?.registerAlert(text: "Зарегестрироваться не удалось. Пожалуйста, проверьте ваши данные и попробуйте снова")
+
             }
-        }
+        })
+                             
+//        networkService.registerUser(nickname: nickname, email: email, password: password) {[weak self] (result) in
+//            switch result{
+//            case let .success(token):
+//                self?.networkService.apiKey = token
+//                self?.cacheService.cacheInfo(UserInfo(login: email, password: password, token: token))
+//                self?.view?.registerSuccess()
+//
+//            case .failure(_):
+//                self?.view?.registerAlert(text: "Зарегестрироваться не удалось. Пожалуйста, проверьте ваши данные и попробуйте снова")
+//            }
+//        }
     }
     
     

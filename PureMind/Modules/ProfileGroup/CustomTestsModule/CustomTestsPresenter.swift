@@ -41,41 +41,41 @@ class CustomTestsPresenter: CustomTestsPresenterProtocol{
     
     
     func loadTest()  {
-        do {
-            let csvFileQuestions: CSV = try CSV(url: Bundle.main.url(forResource: "psy_questions_list_\(testIndex + 1)", withExtension: "csv")!)
-            let ar = csvFileQuestions.enumeratedRows
-            self.finishIndex = ar.count - 1
-            var str = ar[questionIndex][0]
-            for i in 1..<ar[questionIndex].count{
-                str = str + ", " + ar[questionIndex][i]
-            }
-            var startIndex = str.firstIndex(of: ";")
-            startIndex = str.index(after: startIndex!)
-            str = "\(str[startIndex!...])"
-            view?.loadQuestion(questionTitle: str , questionDesc: "")
-            
-            let csvFileList: CSV = try CSV(url: Bundle.main.url(forResource: "psy_questions_table_\(testIndex + 1)", withExtension: "csv")!)
-            startIndex = csvFileList.header[0].firstIndex(of: ";")
-            startIndex = csvFileList.header[0].index(after: startIndex!)
-            str = "\(csvFileList.header[0][startIndex!...])"
-            self.headers = str.components(separatedBy: ";")
-            //var arr = csvFileList.enumeratedRows
-            if questionIndex == csvFileList.enumeratedRows.count - 3{
-                var finalCoef = csvFileList.enumeratedRows[questionIndex + 2][0]
-                startIndex = finalCoef.firstIndex(of: ";")
-                startIndex = finalCoef.index(after: startIndex!)
-                finalCoef = "\(finalCoef[startIndex!...])"
-                self.finalCoefs = finalCoef.components(separatedBy: ";").map{Double($0)!}
-            }
-            var coef = csvFileList.enumeratedRows[questionIndex + 1][0]
-            startIndex = coef.firstIndex(of: ";")
-            startIndex = coef.index(after: startIndex!)
-            coef = "\(coef[startIndex!...])"
-            self.coefs = coef.components(separatedBy: ";").map{Double($0)!}
-        }
-        catch{
-            fatalError("File not found!")
-        }
+//        do {
+//            let csvFileQuestions: CSV = try CSV(url: Bundle.main.url(forResource: "psy_questions_list_\(testIndex + 1)", withExtension: "csv")!)
+//            let ar = csvFileQuestions.enumeratedRows
+//            self.finishIndex = ar.count - 1
+//            var str = ar[questionIndex][0]
+//            for i in 1..<ar[questionIndex].count{
+//                str = str + ", " + ar[questionIndex][i]
+//            }
+//            var startIndex = str.firstIndex(of: ";")
+//            startIndex = str.index(after: startIndex!)
+//            str = "\(str[startIndex!...])"
+//            view?.loadQuestion(questionTitle: str , questionDesc: "")
+//            
+//            let csvFileList: CSV = try CSV(url: Bundle.main.url(forResource: "psy_questions_table_\(testIndex + 1)", withExtension: "csv")!)
+//            startIndex = csvFileList.header[0].firstIndex(of: ";")
+//            startIndex = csvFileList.header[0].index(after: startIndex!)
+//            str = "\(csvFileList.header[0][startIndex!...])"
+//            self.headers = str.components(separatedBy: ";")
+//            //var arr = csvFileList.enumeratedRows
+//            if questionIndex == csvFileList.enumeratedRows.count - 3{
+//                var finalCoef = csvFileList.enumeratedRows[questionIndex + 2][0]
+//                startIndex = finalCoef.firstIndex(of: ";")
+//                startIndex = finalCoef.index(after: startIndex!)
+//                finalCoef = "\(finalCoef[startIndex!...])"
+//                self.finalCoefs = finalCoef.components(separatedBy: ";").map{Double($0)!}
+//            }
+//            var coef = csvFileList.enumeratedRows[questionIndex + 1][0]
+//            startIndex = coef.firstIndex(of: ";")
+//            startIndex = coef.index(after: startIndex!)
+//            coef = "\(coef[startIndex!...])"
+//            self.coefs = coef.components(separatedBy: ";").map{Double($0)!}
+//        }
+//        catch{
+//            fatalError("File not found!")
+//        }
     }
     
     func calculateScore(index: IndexPath) -> [Double]{

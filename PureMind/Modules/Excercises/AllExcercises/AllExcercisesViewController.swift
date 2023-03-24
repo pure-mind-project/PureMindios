@@ -8,7 +8,7 @@
 protocol AllExcerciseViewProtocol: UIViewController{
     func updateUI()
     func failedToLoad()
-    func practicChosen(id: String, title: String, name: String)
+    func practicChosen(practiceID: String, exerciseNumber: Int)
 }
 
 import UIKit
@@ -82,8 +82,6 @@ class AllExcercisesViewController: UIViewController {
         practicsTableView.dataSource = self
     }
     
-    
-    
     @IBAction func backButtonPressed(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
@@ -113,8 +111,8 @@ extension AllExcercisesViewController: AllExcerciseViewProtocol{
         navigationController?.popViewController(animated: true)
     }
     
-    func practicChosen(id: String, title: String, name: String){
-        performSegue(withIdentifier: "practicChosenSegue", sender: [id, title, name])
+    func practicChosen(practiceID: String, exerciseNumber: Int){
+        performSegue(withIdentifier: "practicChosenSegue", sender: [practiceID, exerciseNumber.description])
     }
 }
 
