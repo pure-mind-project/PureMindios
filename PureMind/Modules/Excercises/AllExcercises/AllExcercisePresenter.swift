@@ -8,7 +8,6 @@
 import UIKit
 
 protocol AllExcercisePresenterProtocol{
-    init(view: AllExcerciseViewProtocol)
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func prepareCell(cell: ExcercisesViewCell, index: Int)
     func getTitleText(index: Int) -> String
@@ -17,33 +16,41 @@ protocol AllExcercisePresenterProtocol{
 
 class AllExcercisePresenter: AllExcercisePresenterProtocol{
     weak var view: AllExcerciseViewProtocol?
-    let networkService = NetworkService.shared
-    var currExcercises = [PracticesInfo]()
-    var practics = ["Страх", "Стыд", "Обида", "Уверенность", "Апатия", "Вина", "Злость", "Стресс"]
+    let networkService:  PracticeServiceManagerProtocol
+    var practices = [PracticeRKO]()
+    //var practics = ["Страх", "Стыд", "Обида", "Уверенность", "Апатия", "Вина", "Злость", "Стресс"]
     
-    required init(view: AllExcerciseViewProtocol) {
+    required init(view: AllExcerciseViewProtocol, practiceService: PracticeServiceManagerProtocol) {
         self.view = view
+        self.networkService = practiceService
         networkService.getPractices { [weak self] (result) in
-            switch result{
-            case let .success(tokens):
-                for token in tokens {
-                    self?.currExcercises.append(token)
+            switch result {
+            case .success(let res):
+                print(res.practices)
+                for token in res.practices {
+                    self?.practices.append(token)
                     self?.view?.updateUI()
-                    
                 }
                 
             case .failure(_):
                 self?.view?.failedToLoad()
             }
         }
+        
+        for practice in practices {
+            print((practice.name))
+        }
     }
     
     func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier{
         case "practicChosenSegue":
-            guard let vc = segue.destination as? PageExcerciseViewController, let string = sender as? [String]
+            guard let vc = segue.destination as? PageExcerciseViewController, let info = sender as? [String]
             else {fatalError("invalid data passed")}
-            vc.info = string
+            let curPract = practices.first(where: { prac in prac.id.elementsEqual(info[0])})!
+            vc.techniqueNumber = Int(info[1])!
+            vc.practiceService = networkService
+            vc.practiceID = curPract.id
             
         default:
             break
@@ -51,24 +58,25 @@ class AllExcercisePresenter: AllExcercisePresenterProtocol{
     }
 
     func prepareCell(cell: ExcercisesViewCell, index: Int) {
-        let group = practics[index]
-        var mas = [PracticesInfo]()
-        for exc in currExcercises {
-            if exc.category == group{
-                mas.append(exc)
-            }
-        }
-        cell.excercises = mas
+//        let group = practics[index]
+//        var mas = [PracticesInfo]()
+//        for exc in currExcercises {
+//            if exc.category == group {
+//                mas.append(exc)
+//            }
+//        }
+        cell.practiceID = practices[index].id
+        cell.excercises = practices[index].techniques
         cell.parentVC = view
         cell.excercisesTableView.reloadData()
     }
     
     func getTitleText(index: Int) -> String {
-        return practics[index]
+        return practices[index].name
     }
     
     func countData() -> Int {
-        practics.count
+        practices.count
     }
 
 }

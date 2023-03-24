@@ -72,17 +72,31 @@ class LoginPresenter: LoginPresenterProtocol{
     }
     
     func performLogin(email: String, password: String) {
-        networkService.logIN(login: email, password: password) { (result) in
-            switch result{
-            case let .success(token):
-                self.networkService.apiKey = token
-                self.cacheService.cacheInfo(UserInfo(login: email, password: password, token: token))
-                self.view?.loginSuccess()
-                
-            case .failure(_):
-                self.view?.loginAlert(text: "Войти в систему не удалось. Пожалуйста, проверьте логин и пароль и попробуйте снова")
+        let service = AuthServiceManager()
+        
+        service.authenticateUser(email: email, password: password, completion: { result in
+            switch result {
+            case .success(let token):
+                ModuleBuilder.registerInResolver(type: NetworkServicesFactoryProtocol.self, {
+                    return NetworkServicesFactory(token: token)
+                })
+            case .failure(let error):
+                print(error)
             }
-        }
+            
+            self.view?.loginSuccess()
+        })
+//        networkService.logIN(login: email, password: password) { (result) in
+//            switch result{
+//            case let .success(token):
+//                self.networkService.apiKey = token
+//                self.cacheService.cacheInfo(UserInfo(login: email, password: password, token: token))
+//                self.view?.loginSuccess()
+//
+//            case .failure(_):
+//                self.view?.loginAlert(text: "Войти в систему не удалось. Пожалуйста, проверьте логин и пароль и попробуйте снова")
+//            }
+//        }
     }
     
     func stringClear(str: String) -> String{

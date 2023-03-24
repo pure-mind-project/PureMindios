@@ -42,7 +42,7 @@ class MoodPresenter: MoodPresenterProtocol{
         case "moodAllExcSegue":
             guard let vc = segue.destination as? AllExcercisesViewController
             else {fatalError("invalid data passed")}
-            vc.presenter = AllExcercisePresenter(view: vc)
+            // vc.presenter = AllExcercisePresenter(view: vc)
             
         default:
             break

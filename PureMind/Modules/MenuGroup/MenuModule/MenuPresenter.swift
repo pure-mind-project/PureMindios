@@ -7,7 +7,6 @@
 import UIKit
 
 protocol MenuPresenterProtocol{
-    init(view: MenuViewProtocol)
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func preparePracticCell(cell: PracticViewCell, index: Int)
     func prepareCourseCell(cell: CourseViewCell, index: Int)
@@ -26,52 +25,94 @@ class MenuPresenter: MenuPresenterProtocol{
     var courses = [String]()
     var coursesId = [String]()
     var coursesDesc = [String]()
+    let networkServiceFactory:  NetworkServicesFactoryProtocol
     
-    required init(view: MenuViewProtocol) {
+    required init(view: MenuViewProtocol, networkService: NetworkServicesFactoryProtocol) {
         self.view = view
+        self.networkServiceFactory = networkService
     }
     
     func loadData(){
-        NetworkService.shared.getPractices {[weak self] (result) in
-            switch result{
-            case let .success(tokens):
+        let practiceService = networkServiceFactory.getPracticeService()
+        practiceService.getPractices(completion: { res in
+            switch res {
+            case .success(let info):
                 var p = [String]()
                 var ec = [Int]()
-                for i in 0..<tokens.count {
-                    if !p.contains(tokens[i].category){
-                        p.append(tokens[i].category)
+                for i in 0..<info.practices.count {
+                    if !p.contains(info.practices[i].name) {
+                        p.append(info.practices[i].name)
                         ec.append(1)
                     }
-                    else{
-                        let ind = p.lastIndex(of: tokens[i].category)
+                    else {
+                        let ind = p.lastIndex(of: info.practices[i].name)
                         ec[ind!] = ec[ind!] + 1
                     }
                 }
-                self?.practics = p
-                self?.excerciseCounts = ec
-                NetworkService.shared.getCourses {[weak self] (result) in
-                    switch result{
-                    case let .success(tokens):
-                        for token in tokens {
-                            self?.courses.append(token.name)
-                            self?.coursesId.append(token.id)
-                            self?.coursesDesc.append(token.description ?? " ")
-                        }
-                        self?.courses.append("Все курсы")
-                        self?.practics.append("Все темы")
-                        self?.view?.updateUI()
-                        
-                    case .failure(_):
-                        fatalError("Data didnt load")
-                    }
-                }
-                
+                self.practics = p
+                self.excerciseCounts = ec
             case .failure(_):
-                print("great!")
-                //fatalError("Data didnt load")
-                
+                break
             }
-        }
+        })
+        
+        let courseService = networkServiceFactory.getCourcesService()
+        courseService.getCourses(completion: { res in
+            switch res {
+            case .success(let coursesInfo):
+                for course in coursesInfo.courses {
+                    self.courses.append(course.name)
+                    self.coursesId.append(course.id)
+                    self.coursesDesc.append(course.description ?? " ")
+                }
+                self.courses.append("Все курсы")
+                self.practics.append("Все темы")
+                self.view?.updateUI()
+            case .failure(_):
+                break
+            }
+        })
+        
+//        NetworkService.shared.getPractices {[weak self] (result) in
+//            switch result{
+//            case let .success(tokens):
+//                var p = [String]()
+//                var ec = [Int]()
+//                for i in 0..<tokens.count {
+//                    if !p.contains(tokens[i].category){
+//                        p.append(tokens[i].category)
+//                        ec.append(1)
+//                    }
+//                    else{
+//                        let ind = p.lastIndex(of: tokens[i].category)
+//                        ec[ind!] = ec[ind!] + 1
+//                    }
+//                }
+//                self?.practics = p
+//                self?.excerciseCounts = ec
+//                NetworkService.shared.getCourses {[weak self] (result) in
+//                    switch result{
+//                    case let .success(tokens):
+//                        for token in tokens {
+//                            self?.courses.append(token.name)
+//                            self?.coursesId.append(token.id)
+//                            self?.coursesDesc.append(token.description ?? " ")
+//                        }
+//                        self?.courses.append("Все курсы")
+//                        self?.practics.append("Все темы")
+//                        self?.view?.updateUI()
+//
+//                    case .failure(_):
+//                        fatalError("Data didnt load")
+//                    }
+//                }
+//
+//            case .failure(_):
+//                print("great!")
+//                //fatalError("Data didnt load")
+//
+//            }
+//        }
     }
     
     func conv(n: Int) -> String{
@@ -124,12 +165,12 @@ class MenuPresenter: MenuPresenterProtocol{
         case "allPracticsSegue":
             guard let vc = segue.destination as? AllExcercisesViewController
             else {fatalError("invalid data passed")}
-            vc.presenter = AllExcercisePresenter(view: vc)
+            vc.presenter = AllExcercisePresenter(view: vc, practiceService: networkServiceFactory.getPracticeService())
             
         case "allCoursesSegue":
             guard let vc = segue.destination as? AllCoursesViewController
             else {fatalError("invalid data passed")}
-            vc.presenter = AllCoursesPresenter(view: vc)
+            vc.presenter = AllCoursesPresenter(view: vc, networkFactory: networkServiceFactory)
             
         case "notificationsSegue":
             guard let vc = segue.destination as? NotificationsChoiceViewController

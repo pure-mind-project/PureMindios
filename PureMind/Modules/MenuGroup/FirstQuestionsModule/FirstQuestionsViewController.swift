@@ -34,6 +34,7 @@ class FirstQuestionsViewController: UIViewController {
         checkVCindex()
         prepareLabels()
         presenter.prepareView()
+        vcIndex = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +51,7 @@ class FirstQuestionsViewController: UIViewController {
     }
     
     func checkVCindex(){
-        if vcIndex > 0{
+        if vcIndex > 0 {
             backButtonShell.isHidden = false
         }
     }

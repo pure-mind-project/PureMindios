@@ -55,7 +55,7 @@ class ExcerciseChoicePresenter: ExcerciseChoicePresenterProtocol{
         case "pageExcerciseSegue":
             guard let vc = segue.destination as? PageExcerciseViewController, let string = sender as? [String]
             else {fatalError("invalid data passed")}
-            vc.info = string
+            vc.practiceID = string.first!
             
         default:
             break
