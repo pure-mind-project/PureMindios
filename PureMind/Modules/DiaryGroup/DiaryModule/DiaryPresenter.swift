@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DiaryPresenterProtocol{
-    init(view: DiaryViewProtocol)
+    init(view: DiaryViewProtocol, eveningDiaryService: EveningDiaryServiceManagerProtocol, morningDiaryService: MorningDiaryServiceManagerProtocol)
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func prepareCell(cell: DiaryNoteCollectionViewCell, index: Int)
     func getData()
@@ -17,12 +17,16 @@ protocol DiaryPresenterProtocol{
 
 class DiaryPresenter: DiaryPresenterProtocol{
     weak var view: DiaryViewProtocol?
-    
+    var eveningDiaryService: EveningDiaryServiceManagerProtocol
+    var morningDiaryService: MorningDiaryServiceManagerProtocol
+
     var notes = [DiaryNote]()
     let dateFormatter = DateFormatter()
     
-    required init(view: DiaryViewProtocol) {
+    required init(view: DiaryViewProtocol, eveningDiaryService: EveningDiaryServiceManagerProtocol, morningDiaryService: MorningDiaryServiceManagerProtocol) {
         self.view = view
+        self.morningDiaryService = morningDiaryService
+        self.eveningDiaryService = eveningDiaryService
     }
     
     func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -30,7 +34,7 @@ class DiaryPresenter: DiaryPresenterProtocol{
         case "showMultipleDiarySegue":
             guard let vc = segue.destination as? MultipleChoiceDiaryViewController
             else {fatalError("invalid data passed")}
-            vc.presenter = MultipleChoiceDiaryPresenter(view: vc, vcIndex: 0)
+            vc.presenter = MultipleChoiceDiaryPresenter(view: vc, vcIndex: 0, eveningDiaryService: eveningDiaryService, morningDiaryService: morningDiaryService)
         default:
             break
         }

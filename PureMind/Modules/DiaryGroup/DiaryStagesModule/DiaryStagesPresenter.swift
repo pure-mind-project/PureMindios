@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DiaryStagesPresenterProtocol{
-    init(view: DiaryStagesViewProtocol)
+    init(view: DiaryStagesViewProtocol, eveningDiaryService: EveningDiaryServiceManagerProtocol, morningDiaryService: MorningDiaryServiceManagerProtocol)
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func getTitleText(index: Int) -> String
     func getData()
@@ -17,12 +17,15 @@ protocol DiaryStagesPresenterProtocol{
 
 class DiaryStagesPresenter: DiaryStagesPresenterProtocol{
     weak var view: DiaryStagesViewProtocol?
-    
+    var eveningDiaryService: EveningDiaryServiceManagerProtocol
+    var morningDiaryService: MorningDiaryServiceManagerProtocol
     var stages = ["Вопросы на каждый день", "Аффирмации", "Дневник настроения", "Перед сном 1.0", "Вечернее планирование", "Перед сном 2.0", "Утренний дневник"]
     let dateFormatter = DateFormatter()
     
-    required init(view: DiaryStagesViewProtocol) {
+    required init(view: DiaryStagesViewProtocol, eveningDiaryService: EveningDiaryServiceManagerProtocol, morningDiaryService: MorningDiaryServiceManagerProtocol) {
         self.view = view
+        self.eveningDiaryService = eveningDiaryService
+        self.morningDiaryService = morningDiaryService
     }
     
     func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -35,7 +38,7 @@ class DiaryStagesPresenter: DiaryStagesPresenterProtocol{
         case "showDiaryNotesSegue":
             guard let vc = segue.destination as? DiaryViewController
             else {fatalError("invalid data passed")}
-            vc.presenter = DiaryPresenter(view: vc)
+            vc.presenter = DiaryPresenter(view: vc, eveningDiaryService: eveningDiaryService, morningDiaryService: morningDiaryService)
             
         case "showDiaryTextSegue":
             guard let vc = segue.destination as? DiaryTextViewController, let stringArray = sender as? [String]

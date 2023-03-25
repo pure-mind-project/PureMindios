@@ -10,6 +10,8 @@ import Foundation
 protocol NetworkServicesFactoryProtocol {
     func getCourcesService() -> CourcesServiceManager
     func getPracticeService() -> PracticeServiceManagerProtocol
+    func getEveningDiaryService() -> EveningDiaryServiceManagerProtocol
+    func getMorningDiaryService() -> MorningDiaryServiceManagerProtocol
     static func makeTokenHeader(token: String) -> [String:String]
 }
 
@@ -26,6 +28,14 @@ class NetworkServicesFactory: NetworkServicesFactoryProtocol {
     
     public func getPracticeService() -> PracticeServiceManagerProtocol {
         PracticeServiceManager(token: token)
+    }
+    
+    public func getEveningDiaryService() -> EveningDiaryServiceManagerProtocol {
+        EveningDiaryServiceManager(token: token)
+    }
+    
+    public func getMorningDiaryService() -> MorningDiaryServiceManagerProtocol {
+        MorningDiaryServiceManager(token: token)
     }
     
     public static func makeTokenHeader(token: String) -> [String:String] {

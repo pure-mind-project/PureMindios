@@ -192,6 +192,10 @@
 		E8E60AE229BA7FED00369D40 /* NetworkServicesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE129BA7FED00369D40 /* NetworkServicesFactory.swift */; };
 		E8E60AE429BE04F700369D40 /* CoursesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE329BE04F700369D40 /* CoursesModels.swift */; };
 		E8E60AE629C771B900369D40 /* MOCservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE529C771B900369D40 /* MOCservice.swift */; };
+		E8E60AE829CE40F700369D40 /* MorningDiaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE729CE40F600369D40 /* MorningDiaryService.swift */; };
+		E8E60AEA29CE438400369D40 /* DiaryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AE929CE438400369D40 /* DiaryModels.swift */; };
+		E8E60AEC29CE525900369D40 /* EveningDiaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AEB29CE525900369D40 /* EveningDiaryService.swift */; };
+		E8E60AEE29CF393800369D40 /* QuestionsAndAffirmationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E60AED29CF393700369D40 /* QuestionsAndAffirmationsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -405,6 +409,10 @@
 		E8E60AE129BA7FED00369D40 /* NetworkServicesFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServicesFactory.swift; sourceTree = "<group>"; };
 		E8E60AE329BE04F700369D40 /* CoursesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesModels.swift; sourceTree = "<group>"; };
 		E8E60AE529C771B900369D40 /* MOCservice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOCservice.swift; sourceTree = "<group>"; };
+		E8E60AE729CE40F600369D40 /* MorningDiaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorningDiaryService.swift; sourceTree = "<group>"; };
+		E8E60AE929CE438400369D40 /* DiaryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModels.swift; sourceTree = "<group>"; };
+		E8E60AEB29CE525900369D40 /* EveningDiaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveningDiaryService.swift; sourceTree = "<group>"; };
+		E8E60AED29CF393700369D40 /* QuestionsAndAffirmationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionsAndAffirmationsService.swift; sourceTree = "<group>"; };
 		F0EAE2D345787B1A2710F770 /* Pods_PureMind.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PureMind.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -645,6 +653,9 @@
 				E8E60ADF29BA7D6900369D40 /* CoursesService.swift */,
 				E8E60AE129BA7FED00369D40 /* NetworkServicesFactory.swift */,
 				E8E60AE529C771B900369D40 /* MOCservice.swift */,
+				E8E60AE729CE40F600369D40 /* MorningDiaryService.swift */,
+				E8E60AEB29CE525900369D40 /* EveningDiaryService.swift */,
+				E8E60AED29CF393700369D40 /* QuestionsAndAffirmationsService.swift */,
 			);
 			path = ServiceLayer;
 			sourceTree = "<group>";
@@ -1243,6 +1254,7 @@
 				E8E60AD929B7BDD600369D40 /* AuthModels.swift */,
 				E8E60ADD29B9222F00369D40 /* PracticeModels.swift */,
 				E8E60AE329BE04F700369D40 /* CoursesModels.swift */,
+				E8E60AE929CE438400369D40 /* DiaryModels.swift */,
 			);
 			path = RKO;
 			sourceTree = "<group>";
@@ -1572,7 +1584,9 @@
 				69F6ABBB27AFDFC400D4A5D4 /* LessonsTablePresenter.swift in Sources */,
 				69CC6B95279B2B740051013E /* NoPasswordPresenter.swift in Sources */,
 				69AD34CB26ED559700CB7581 /* TherapistPriceViewController.swift in Sources */,
+				E8E60AEA29CE438400369D40 /* DiaryModels.swift in Sources */,
 				69F6ABAA27AFD6C900D4A5D4 /* ReflexiveViewController.swift in Sources */,
+				E8E60AE829CE40F700369D40 /* MorningDiaryService.swift in Sources */,
 				69ABE44B269C56C1001FBB4E /* PoliciesFullViewController.swift in Sources */,
 				69CA8C76278360BF00549176 /* AllExcercisesViewController.swift in Sources */,
 				69C79D4226CAC112008B024A /* AnswerViewCell.swift in Sources */,
@@ -1603,11 +1617,13 @@
 				69BB2B0E27AAB44E0048C747 /* ExpPortraitViewCell.swift in Sources */,
 				69BB2AF027AAA6120048C747 /* AlertContactsViewController.swift in Sources */,
 				69A1C6FD26B48E0800216B2C /* TherapistChoicePresenter.swift in Sources */,
+				E8E60AEC29CE525900369D40 /* EveningDiaryService.swift in Sources */,
 				69F7780F27C551B5003A1F56 /* UITextViewExtensions.swift in Sources */,
 				69EE7FD9280F1F4600B7FB0B /* CustomResultsPresenter.swift in Sources */,
 				69C327AB278389E700F1394E /* ExcercisesViewCell.swift in Sources */,
 				69009F442717295B00D18BEA /* GapsExcercisePresenter.swift in Sources */,
 				695172072804BEE000E11F7F /* CustomTestsPresenter.swift in Sources */,
+				E8E60AEE29CF393800369D40 /* QuestionsAndAffirmationsService.swift in Sources */,
 				69C79D3D26CABC24008B024A /* FirstQuestionsPresenter.swift in Sources */,
 				69BC724027502BCE00774A0F /* PracticesInfo.swift in Sources */,
 				698D75432695E2F600C66C11 /* DescriptionViewController.swift in Sources */,

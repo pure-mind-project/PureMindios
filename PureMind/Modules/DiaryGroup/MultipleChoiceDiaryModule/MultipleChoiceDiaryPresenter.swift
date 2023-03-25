@@ -10,7 +10,7 @@ import UIKit
 //MultipleChoiceDiary
 
 protocol MultipleChoiceDiaryPresenterProtocol{
-    init(view: MultipleChoiceDiaryViewProtocol, vcIndex: Int)
+    init(view: MultipleChoiceDiaryViewProtocol, vcIndex: Int,  eveningDiaryService: EveningDiaryServiceManagerProtocol, morningDiaryService: MorningDiaryServiceManagerProtocol)
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func getNumberOfItems() -> Int
     func getSelectedAnswersCount() -> Int
@@ -25,12 +25,16 @@ class MultipleChoiceDiaryPresenter: MultipleChoiceDiaryPresenterProtocol{
     var selectedCells = [IndexPath]()
     var selectedAnswers = [String]()
     var currIndex: Int!
+    var eveningDiaryService: EveningDiaryServiceManagerProtocol
+    var morningDiaryService: MorningDiaryServiceManagerProtocol
     var titleQuestions = ["Привет! Как проходит твой день?", "Что ты чувствуешь в данный момент?", "Что тебя сегодня заряжает/радует?"]
     var answerData = [["Ужасно", "Плохо", "Обычно", "Хорошо", "Отлично"], ["грусть", "счастье", "гордость", "благодарность", "спокойствие", "возбужденность", "внимательность", "усталость", "стресс", "сонливость", "восхищение"], []]
     
-    required init(view: MultipleChoiceDiaryViewProtocol, vcIndex: Int) {
+    required init(view: MultipleChoiceDiaryViewProtocol, vcIndex: Int,  eveningDiaryService: EveningDiaryServiceManagerProtocol, morningDiaryService: MorningDiaryServiceManagerProtocol) {
         self.view = view
         self.currIndex = vcIndex
+        self.morningDiaryService = morningDiaryService
+        self.eveningDiaryService = eveningDiaryService
     }
     
     func prepareView() {
