@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 protocol AssemblyBuilderProtocol {
     func createWelcomeModule() -> UIViewController
@@ -54,7 +55,8 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     
     func createDiarymodule() -> UIViewController {
         let diaryVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DiaryVC") as DiaryStagesViewController
-        diaryVC.presenter = DiaryStagesPresenter(view: diaryVC)
+        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
+        diaryVC.presenter = DiaryStagesPresenter(view: diaryVC, eveningDiaryService: networkManager.getEveningDiaryService(), morningDiaryService: networkManager.getMorningDiaryService())
         let navVC = UINavigationController(rootViewController: diaryVC)
         return navVC
     }
@@ -107,7 +109,8 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     func createMultipleChoiceDiary(vcIndex: Int) -> UIViewController{
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MultipleDiaryVC") as MultipleChoiceDiaryViewController
         vc.vcIndex = vcIndex
-        vc.presenter = MultipleChoiceDiaryPresenter(view: vc, vcIndex: vcIndex)
+        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
+        vc.presenter = MultipleChoiceDiaryPresenter(view: vc, vcIndex: vcIndex, eveningDiaryService: networkManager.getEveningDiaryService(), morningDiaryService: networkManager.getMorningDiaryService())
         return vc
     }
     
