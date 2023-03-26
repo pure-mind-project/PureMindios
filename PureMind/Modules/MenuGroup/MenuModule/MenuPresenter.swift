@@ -181,8 +181,6 @@ class MenuPresenter: MenuPresenterProtocol{
             guard let vc = segue.destination as? DiaryStagesViewController
             else {fatalError("invalid data passed")}
             vc.presenter = DiaryStagesPresenter(view: vc, eveningDiaryService: networkServiceFactory.getEveningDiaryService(), morningDiaryService: networkServiceFactory.getMorningDiaryService())
-        
-            
         default:
             break
         }

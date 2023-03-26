@@ -12,6 +12,7 @@ protocol NetworkServicesFactoryProtocol {
     func getPracticeService() -> PracticeServiceManagerProtocol
     func getEveningDiaryService() -> EveningDiaryServiceManagerProtocol
     func getMorningDiaryService() -> MorningDiaryServiceManagerProtocol
+    func getMoodTrackerDiaryService() -> MoodTrackerServiceManagerProtocol
     static func makeTokenHeader(token: String) -> [String:String]
 }
 
@@ -36,6 +37,10 @@ class NetworkServicesFactory: NetworkServicesFactoryProtocol {
     
     public func getMorningDiaryService() -> MorningDiaryServiceManagerProtocol {
         MorningDiaryServiceManager(token: token)
+    }
+    
+    public func getMoodTrackerDiaryService() -> MoodTrackerServiceManagerProtocol {
+        MoodTrackerServiceManager(token: token)
     }
     
     public static func makeTokenHeader(token: String) -> [String:String] {

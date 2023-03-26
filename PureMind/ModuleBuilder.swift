@@ -25,6 +25,11 @@ class ModuleBuilder: AssemblyBuilderProtocol {
         resolver.register(type: type, factory)
     }
     
+    private var networkManager: NetworkServicesFactoryProtocol = {
+        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
+        return networkManager
+    }()
+    
     func createWelcomeModule() -> UIViewController {
         let welcomeVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "WelcomeVC") as WelcomeViewController
         let navC = UINavigationController(rootViewController: welcomeVC)
@@ -47,7 +52,6 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     
     func createMenuModule() -> UIViewController {
         let menuVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MenuVC") as MenuViewController
-        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
         menuVC.presenter = MenuPresenter(view: menuVC, networkService: networkManager)
         let navC = UINavigationController(rootViewController: menuVC)
         return navC
@@ -55,7 +59,6 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     
     func createDiarymodule() -> UIViewController {
         let diaryVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DiaryVC") as DiaryStagesViewController
-        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
         diaryVC.presenter = DiaryStagesPresenter(view: diaryVC, eveningDiaryService: networkManager.getEveningDiaryService(), morningDiaryService: networkManager.getMorningDiaryService())
         let navVC = UINavigationController(rootViewController: diaryVC)
         return navVC
@@ -74,7 +77,6 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     
     func createPracticModule() -> UIViewController{
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "AllExcVC") as AllExcercisesViewController
-        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
         vc.presenter = AllExcercisePresenter(view: vc, practiceService: networkManager.getPracticeService())
         vc.backHidden = true
         let navC = UINavigationController(rootViewController: vc)
@@ -83,8 +85,6 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     
     func createCoursesModule() -> UIViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "AllCoursesVC") as AllCoursesViewController
-        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
-        
         vc.presenter = AllCoursesPresenter(view: vc, networkFactory: networkManager)
         vc.backHidden = true
         let navC = UINavigationController(rootViewController: vc)
@@ -109,7 +109,6 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     func createMultipleChoiceDiary(vcIndex: Int) -> UIViewController{
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MultipleDiaryVC") as MultipleChoiceDiaryViewController
         vc.vcIndex = vcIndex
-        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
         vc.presenter = MultipleChoiceDiaryPresenter(view: vc, vcIndex: vcIndex, eveningDiaryService: networkManager.getEveningDiaryService(), morningDiaryService: networkManager.getMorningDiaryService())
         return vc
     }
@@ -117,7 +116,8 @@ class ModuleBuilder: AssemblyBuilderProtocol {
     func createMoodModuleOne(mood: String, vcIndex: Int) -> UIViewController{
         let moodOneVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "FirstQuestionVC") as FirstQuestionsViewController
         moodOneVC.vcIndex = vcIndex
-        moodOneVC.presenter = FirstQuestionsPresenter(view: moodOneVC, currMood: mood)
+        let networkManager = ModuleBuilder.resolver.resolve(type: NetworkServicesFactoryProtocol.self) as! NetworkServicesFactoryProtocol
+        moodOneVC.presenter = FirstQuestionsPresenter(view: moodOneVC, currMood: mood, networkService: networkManager.getMoodTrackerDiaryService())
         return moodOneVC
     }
     
