@@ -32,8 +32,6 @@ class MoodViewController: UIViewController, ChartViewDelegate {
         presenter.loadPracticData()
     }
     
-    
-    
     func prepareViews(){
         practicesView.backgroundColor = UIColor(patternImage: UIImage(named: "background14")!)
         practicesView.layer.cornerRadius = 20

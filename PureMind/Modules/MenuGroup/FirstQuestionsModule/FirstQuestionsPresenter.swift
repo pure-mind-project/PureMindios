@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FirstQuestionsPresenterProtocol{
-    init(view: FirstQuestionsViewProtocol, currMood: String)
+    init(view: FirstQuestionsViewProtocol, currMood: String, networkService: MoodTrackerServiceManagerProtocol)
     func prepare(for segue: UIStoryboardSegue, sender: Any?)
     func getNumberOfSections() -> Int
     func getNumberOfItems(section: Int) -> Int
@@ -24,15 +24,17 @@ protocol FirstQuestionsPresenterProtocol{
 
 class FirstQuestionsPresenter: FirstQuestionsPresenterProtocol{
     weak var view: FirstQuestionsViewProtocol?
+    var networkService: MoodTrackerServiceManagerProtocol
     var currMood: String?
     var currMoodColor: UIColor?
     var selectedCells = [IndexPath]()
     var selectedAnswers = [String]()
     var phonyData = [["Гордость", "Спокойствие", "Уверенность", "Радость", "Счастье", "Возбуждение", "Благодарность", "Мотивация", "Вдохновение", "Облегчение", "Безопасность", "Печаль", "Злость", "Скука", "Стыд", "Разочарование", "Одиночество", "Вина", "Усталость", "Тревога"]]
     
-    required init(view: FirstQuestionsViewProtocol, currMood: String) {
+    required init(view: FirstQuestionsViewProtocol, currMood: String, networkService: MoodTrackerServiceManagerProtocol) {
         self.view = view
         self.currMood = currMood
+        self.networkService = networkService
     }
     
     func calculateScore(index: IndexPath) -> Int{
